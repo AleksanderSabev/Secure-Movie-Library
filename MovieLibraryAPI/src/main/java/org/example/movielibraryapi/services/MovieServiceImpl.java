@@ -66,6 +66,15 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
+    public void updateRating(Long movieId, Double rating) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new EntityNotFoundException("Movie", movieId));
+        movie.setRating(rating);
+    }
+
+
+    @Override
+    @Transactional
     public void delete(Long id) {
         if(!movieRepository.existsById(id)){
             throw new EntityNotFoundException("Movie", id);

@@ -28,11 +28,4 @@ public class ModelMapper {
                 movie.getRating()
         );
     }
-
-
-    public void updateEntity(Movie movie, MovieRequestDto dto) {
-        if (dto.getTitle() != null) movie.setTitle(dto.getTitle());
-        if (dto.getDirector() != null) movie.setDirector(dto.getDirector());
-        if (dto.getReleaseYear() != null) movie.setReleaseYear(dto.getReleaseYear());
-    }
 }

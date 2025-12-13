@@ -7,6 +7,7 @@ import org.example.movielibraryapi.helpers.ModelMapper;
 import org.example.movielibraryapi.models.Movie;
 import org.example.movielibraryapi.models.dtos.MovieRequestDto;
 import org.example.movielibraryapi.models.dtos.MovieResponseDto;
+import org.example.movielibraryapi.services.contracts.MovieRatingEnrichmentService;
 import org.example.movielibraryapi.services.contracts.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +22,27 @@ public class MovieController {
 
     private final MovieService movieService;
     private final ModelMapper modelMapper;
+    private final MovieRatingEnrichmentService enrichmentService;
 
     @Autowired
-    public MovieController(MovieService movieService, ModelMapper modelMapper) {
+    public MovieController(MovieService movieService,
+                           ModelMapper modelMapper,
+                           MovieRatingEnrichmentService enrichmentService) {
         this.movieService = movieService;
         this.modelMapper = modelMapper;
+        this.enrichmentService = enrichmentService;
     }
 
     @PostMapping
     public MovieResponseDto createMovie(@RequestBody @Valid MovieRequestDto dto) {
         try {
             Movie movie = modelMapper.toEntity(dto);
-            return modelMapper.toDto(movieService.create(movie));
+            Movie saved  = movieService.create(movie);
+
+            enrichmentService.enrichRating(saved.getId(), saved.getTitle());
+
+            return modelMapper.toDto(saved);
+
         } catch (DuplicateEntityException e){
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
