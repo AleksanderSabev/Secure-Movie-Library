@@ -13,4 +13,5 @@ public interface MovieRepository extends JpaRepository<@NonNull Movie, @NonNull 
     Optional<Movie> findByTitle(String title);
 
 
+    boolean existsByTitle(String title);
 }

@@ -26,7 +26,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("org.example.nomadnestapp.models");
+        sessionFactory.setPackagesToScan("org.example.movielibraryapi.models");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

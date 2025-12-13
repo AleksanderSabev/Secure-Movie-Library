@@ -45,9 +45,9 @@ public class Movie {
     public String getDirector() { return director; }
     public void setDirector(String director) { this.director = director; }
 
-    public int getReleaseYear() { return releaseYear; }
+    public Integer getReleaseYear() { return releaseYear; }
     public void setReleaseYear(int releaseYear) { this.releaseYear = releaseYear; }
 
-    public double getRating() { return rating; }
+    public Double getRating() { return rating; }
     public void setRating(double rating) { this.rating = rating; }
 }
