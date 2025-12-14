@@ -110,43 +110,6 @@ Follow these steps to set up and run the application:
 
 The solution is organized into the following core components, adhering to a standard layered architecture:
 
-```
-.
-.
-├── build.gradle
-├── settings.gradle
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── org
-    │   │       └── example
-    │   │           └── movielibraryapi
-    │   │               ├── config
-    │   │               ├── controllers
-    │   │               ├── enums
-    │   │               ├── exceptions
-    │   │               ├── helpers
-    │   │               ├── models
-    │   │               │   └── dtos
-    │   │               │       └── auth
-    │   │               ├── repositories
-    │   │               ├── security
-    │   │               └── services
-    │   │                   ├── auth
-    │   │                   ├── contracts
-    │   │                   └── impl
-    │   └── resources
-    │       ├── static
-    │       └── templates
-    └── test
-        └── java
-            └── org
-                └── example
-                    └── movielibraryapi
-                        └── services
-                            ├── auth
-                            └── impl
-```
 
 * **`controllers`**: Contains the REST endpoints (`@RestController`) for authentication (`AuthController`) and movie management (`MovieController`).
 * **`services`**: Holds the business logic and interfaces (e.g., `UserService`, `MovieService`) and their implementations.
