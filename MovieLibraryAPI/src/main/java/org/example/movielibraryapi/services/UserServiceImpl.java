@@ -1,15 +1,17 @@
 package org.example.movielibraryapi.services;
 
 import org.example.movielibraryapi.enums.Role;
+import org.example.movielibraryapi.exceptions.DuplicateEntityException;
+import org.example.movielibraryapi.exceptions.EntityNotFoundException;
 import org.example.movielibraryapi.models.User;
 import org.example.movielibraryapi.repositories.UserRepository;
 import org.example.movielibraryapi.services.contracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public User createUser(String username, String rawPassword, String role) {
+        if(userRepository.existsByUsername(username)){
+            throw new DuplicateEntityException("User", "username", username);
+        }
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(rawPassword));
@@ -31,22 +36,30 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User", id);
+        }
         userRepository.deleteById(id);
     }
 
     public User updatePassword(Long id, String newPassword) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User", id));
         user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.save(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public User assignRole(String username, String role) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User", "username", username));
+        user.setRole(Role.fromString(role));
         return userRepository.save(user);
     }
 }

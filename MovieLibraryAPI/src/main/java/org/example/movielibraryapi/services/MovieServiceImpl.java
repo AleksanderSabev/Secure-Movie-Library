@@ -4,6 +4,7 @@ import org.example.movielibraryapi.exceptions.DuplicateEntityException;
 import org.example.movielibraryapi.exceptions.EntityNotFoundException;
 import org.example.movielibraryapi.models.Movie;
 import org.example.movielibraryapi.services.contracts.MovieService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.example.movielibraryapi.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public Movie create(Movie movie) {
         if (movieRepository.existsByTitle(movie.getTitle())) {
@@ -52,6 +54,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public Movie update(Long id, Movie movie) {
         Movie movieToUpdate = movieRepository.findById(id)
@@ -74,8 +77,10 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void delete(Long id) {
+
         if(!movieRepository.existsById(id)){
             throw new EntityNotFoundException("Movie", id);
         }

@@ -1,10 +1,14 @@
 package org.example.movielibraryapi.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.movielibraryapi.enums.Role;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -23,11 +27,4 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    public User() {}
-
-    public User(String username, String password, Role role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
 }

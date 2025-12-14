@@ -1,6 +1,6 @@
 package org.example.movielibraryapi.services.auth;
 
-import lombok.NonNull;
+
 import org.example.movielibraryapi.models.User;
 import org.example.movielibraryapi.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().name())
+                .roles(user.getRole().name().toUpperCase())
                 .build();
     }
 }
