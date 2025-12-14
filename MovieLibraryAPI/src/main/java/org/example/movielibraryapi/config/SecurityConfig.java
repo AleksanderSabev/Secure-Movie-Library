@@ -41,9 +41,17 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/movies/**").authenticated()
+                        .requestMatchers(
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/webjars/**",
 
-                        .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**")
+                                "/auth/**",
+                                "/"
+                        )
                         .permitAll()
                         .anyRequest()
                         .authenticated()

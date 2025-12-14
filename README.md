@@ -40,7 +40,7 @@ The MovieLibraryAPI implements authentication and authorization using **Spring S
     * **Token Issuance:** The JWT is returned to the client, which stores it (e.g., in local storage). This token contains the user's identity and permissions (roles).
 
 * **Authorization Flow:**
-    * **`JwtAuthenticationFilter`:** This custom filter is the core of the security process. For every subsequent request (to `/api/movies`, `/api/admin`, etc.), this filter intercepts the request header to extract and validate the JWT.
+    * **`JwtAuthenticationFilter`:** This custom filter is the core of the security process. For every subsequent request (to `/api/movies`, `/api/users`, etc.), this filter intercepts the request header to extract and validate the JWT.
     * **Token Validation:** The `JwtService` validates the token's signature, expiry, and integrity.
     * **Context Setup:** If the token is valid, Spring Security's context is populated with the user details (username and **Role**).
     * **Access Control:** The `SecurityConfig` then uses the role (e.g., `ROLE_ADMIN`, `ROLE_USER`) to enforce access rules on specific endpoints.
