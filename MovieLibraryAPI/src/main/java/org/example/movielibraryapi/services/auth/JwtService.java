@@ -60,12 +60,15 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        try {
+            final String username = extractUsername(token);
+            return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    private SecretKey getKey() {
+    protected SecretKey getKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 }

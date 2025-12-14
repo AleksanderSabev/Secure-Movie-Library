@@ -44,7 +44,10 @@ public class MovieRatingEnrichmentServiceImpl implements MovieRatingEnrichmentSe
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(OmdbResponse.class)
-                .doOnError(e -> logger.error("OMDb call failed for {}: {}", title, e.getMessage()))
+                .onErrorResume(e -> {
+                    logger.error("OMDb call failed for {}: {}", title, e.getMessage());
+                    return Mono.empty();
+                })
                 .flatMap(response -> {
                     if (response.getImdbRating() != null && !response.getImdbRating().equals("N/A")) {
                         try {
