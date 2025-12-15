@@ -88,7 +88,7 @@ Follow these steps to set up and run the application:
 2.  **Setup Database:** Create a MariaDB database and run the SQL scripts from the `db` folder.
 3.  **Configure:** Update `application.properties` with your DB credentials:
     ```properties
-    spring.datasource.url=jdbc:mariadb://localhost:3306/movierater
+    spring.datasource.url=jdbc:mariadb://localhost:3306/movielib
     spring.datasource.username=your_username
     spring.datasource.password=your_password
     ```
